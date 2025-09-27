@@ -1,7 +1,13 @@
+from os import mkdir
+
+from django.http import FileResponse
+
 from excel.repositories import ExcelRepository
 import os
 from django.conf import settings
 from utils.BaseResponse import BaseResponse
+import pandas as pd
+import numpy as np
 
 
 class ExcelService:
@@ -42,3 +48,53 @@ class ExcelService:
             data={"id": planilha.id, "nome": planilha.nome},
             status_code=201
         )
+
+    @staticmethod
+    def pega_planilha_excel(nome):
+        if not ExcelRepository.existe_planilha(nome):
+            return BaseResponse.error(
+                message="Não existe um arquivo salvo com esse nome",
+                errors=None,
+                status_code=400
+            )
+
+        caminho = os.path.join(settings.EXCEL_UPLOAD_DIR, nome)
+
+        if not os.path.exists(caminho):
+            return BaseResponse.error(
+                message=f"Arquivo não encontrado no servidor: {caminho}",
+                errors=None,
+                status_code=404
+            )
+
+        return FileResponse(open(caminho, "rb"), as_attachment=True, filename=nome)
+
+    @staticmethod
+    def pega_planilha_json(nome):
+        if not ExcelRepository.existe_planilha(nome):
+            return BaseResponse.error(
+                message="Não existe um arquivo salvo com esse nome",
+                errors=None,
+                status_code=400
+            )
+
+        caminho = os.path.join(settings.EXCEL_UPLOAD_DIR, nome)
+
+        if not os.path.exists(caminho):
+            return BaseResponse.error(
+                message=f"Arquivo não encontrado no servidor: {caminho}",
+                errors=None,
+                status_code=404
+            )
+
+        df = pd.read_excel(caminho)
+        df = df.replace({np.nan: None, np.inf: None, -np.inf: None})
+        data = df.to_dict(orient="records")
+
+        return BaseResponse.success(
+            message="Planilha carregada",
+            data=data,
+            status_code=200
+        )
+
+

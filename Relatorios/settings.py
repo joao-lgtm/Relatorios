@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     #APP
     'usuarios',
     'excel',
+    'consultas'
 ]
 
 MIDDLEWARE = [

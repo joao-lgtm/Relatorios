@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/usuarios/', include('usuarios.urls')),
     path('api/excel/', include('excel.urls')),
+    path('api/consultas/', include('consultas.urls')),
 
     # JWT Login
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

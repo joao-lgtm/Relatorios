@@ -22,5 +22,5 @@ class Usuario(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-class Meta:
-    db_table = 'usuarios'
+    class Meta:
+        db_table = 'usuarios'
