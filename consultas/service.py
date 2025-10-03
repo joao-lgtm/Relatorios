@@ -1,12 +1,25 @@
 from rest_framework.views import APIView
 
 from consultas.repositories import ConsultaRepository
-from consultas.serializer import ConsultasSerializer
+from consultas.serializer import ConsultasSerializer, ConsultasIdNomeSerializer
 from utils.BaseResponse import BaseResponse
 from utils.connection import sql
 import pandas as pd
 
+from utils.traduzTipoColuna import traduzTipoColunas
+
+
 class ConsultasService:
+    @staticmethod
+    def pegaTodasConsultas():
+        relatorios = ConsultaRepository.todasConsultas()
+
+        nomeRelatorios = ConsultasIdNomeSerializer(relatorios, many=True)
+        return BaseResponse.success(
+            message='Lista de consultas',
+            data=nomeRelatorios.data,
+            status_code=200
+        )
 
     @staticmethod
     def consulta(nome):
@@ -18,15 +31,17 @@ class ConsultasService:
             )
 
         consulta = ConsultaRepository.consulta(nome)
+
+
         serializer = ConsultasSerializer(consulta)
 
         vw = sql(serializer.data.get("consultas"))
 
-        print(vw)
+        tc = traduzTipoColunas(vw)
 
         return BaseResponse.success(
-            message="Cons",
-            data=vw,
+            message="consulta encontrada com sucesso",
+            data=tc,
             status_code=200
         )
 

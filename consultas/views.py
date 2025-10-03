@@ -9,5 +9,7 @@ class ConsultasVwView(APIView):
         nome = request.GET.get("nome")
         return ConsultasService.consulta(nome)
 
-
+class ListaConsultasVwView(APIView):
+    def get(self, request):
+        return ConsultasService.pegaTodasConsultas()
 

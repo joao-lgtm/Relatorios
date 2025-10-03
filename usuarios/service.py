@@ -1,4 +1,5 @@
 from .models import Usuario
+from .repositories import UsuarioRepository
 from .serializers import UsuarioSerializer
 from utils.BaseResponse import BaseResponse
 from rest_framework import status
@@ -9,6 +10,7 @@ class UsuarioService:
         serializer = UsuarioSerializer(data=data)
         if serializer.is_valid():
             usuario = serializer.save()
+
             return BaseResponse.success(
                 message="Usuário criado com sucesso",
                 data=UsuarioSerializer(usuario).data,
@@ -22,7 +24,7 @@ class UsuarioService:
 
     @staticmethod
     def listar():
-        usuarios = Usuario.objects.all()
+        usuarios = UsuarioRepository.listar()
         serializer = UsuarioSerializer(usuarios, many=True)
         return BaseResponse.success(
             message="Lista de usuários recuperada com sucesso",

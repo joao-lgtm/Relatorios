@@ -6,5 +6,5 @@ class UsuarioRepository:
         return Usuario.objects.create_user(**dados)
 
     @staticmethod
-    def list():
+    def listar():
         return Usuario.objects.all()
