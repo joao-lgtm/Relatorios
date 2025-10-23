@@ -10,7 +10,7 @@ class BaseResponse:
             {
                 "success": True,
                 "message": message,
-                "data": data
+                **data
             },
             status=status_code
         )

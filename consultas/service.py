@@ -17,7 +17,7 @@ class ConsultasService:
         nomeRelatorios = ConsultasIdNomeSerializer(relatorios, many=True)
         return BaseResponse.success(
             message='Lista de consultas',
-            data=nomeRelatorios.data,
+            data={"relatorios": nomeRelatorios.data},
             status_code=200
         )
 
