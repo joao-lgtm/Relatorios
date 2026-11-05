@@ -14,7 +14,7 @@ os.makedirs(EXCEL_UPLOAD_DIR, exist_ok=True)
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-w&qrd=$wdk-6a!wwb3l@9*rdil37$s1=m^bs@^d$9=0tfq3hdz'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-dev-only-troque-em-producao')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
