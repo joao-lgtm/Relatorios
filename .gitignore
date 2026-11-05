@@ -1,0 +1,13 @@
+# Banco local e segredos
+db.sqlite3
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Uploads e IDE
+media/
+.idea/
